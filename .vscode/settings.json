@@ -1,5 +1,6 @@
 {
     "conventionalCommits.scopes": [
-        "First Commit "
+        "First Commit ",
+        "Config development environment with the database already connect and the entity user created (only the resource)"
     ]
 }
