@@ -1,9 +1,14 @@
-import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
-import { JwtService } from "@nestjs/jwt";
-import { UsersService } from "src/user/user.service";
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { UsersService } from 'src/user/user.service';
 import * as bcryptjs from 'bcryptjs';
-import { LoginDto } from "./dto/login.dto";
-import { SignUpDto } from "./dto/signUp.dto";
+import { LoginDto } from './dto/login.dto';
+import { SignUpDto } from './dto/signUp.dto';
 
 @Injectable()
 export class AuthService {
@@ -51,8 +56,11 @@ export class AuthService {
     const token = await this.createToken(userFound.email, userFound.name);
 
     return {
-      id: userFound.id,
-      token,
+      message: 'Login Succesfully',
+      data: {
+        id: userFound.id,
+        token,
+      },
     };
   }
 
@@ -60,9 +68,11 @@ export class AuthService {
     await this.verifyIfUserAlreadyExist(signUpDto.email);
     const hashpassword = await this.encryptPassword(signUpDto.password);
 
-    return await this.userServices.create({
+    await this.userServices.create({
       ...signUpDto,
       password: hashpassword,
     });
+
+    return 'The user has been created!'
   }
 }
