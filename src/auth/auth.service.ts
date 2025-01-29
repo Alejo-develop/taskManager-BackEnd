@@ -58,7 +58,7 @@ export class AuthService {
     return {
       message: 'Login Succesfully',
       data: {
-        token,
+        accessToken: token,
       },
     };
   }
