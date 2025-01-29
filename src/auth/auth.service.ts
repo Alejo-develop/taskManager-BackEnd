@@ -38,8 +38,8 @@ export class AuthService {
     if (userFound) throw new ConflictException('Email already exist');
   }
 
-  private async createToken(email: string, name: string) {
-    const payload = { email: email, name: name };
+  private async createToken(id: string, email: string, name: string) {
+    const payload = { id: id, email: email, name: name };
     const token = await this.jwtServices.signAsync(payload);
 
     return token;
@@ -53,12 +53,11 @@ export class AuthService {
     if (!userFound) throw new NotFoundException('Email not found');
 
     await this.comparePasswords(loginDto.password, userFound.password);
-    const token = await this.createToken(userFound.email, userFound.name);
+    const token = await this.createToken(userFound.id, userFound.email, userFound.name);
 
     return {
       message: 'Login Succesfully',
       data: {
-        id: userFound.id,
         token,
       },
     };
@@ -73,6 +72,6 @@ export class AuthService {
       password: hashpassword,
     });
 
-    return 'The user has been created!'
+    return 'The user has been created!';
   }
 }
