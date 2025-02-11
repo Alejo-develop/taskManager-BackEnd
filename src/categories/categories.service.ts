@@ -7,18 +7,22 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class CategoriesService {
   constructor(
-    @InjectRepository(Category) private readonly categoryRepository: Repository<Category>
-  ){}
+    @InjectRepository(Category)
+    private readonly categoryRepository: Repository<Category>,
+  ) {}
 
   async create(createCategoryDto: CreateCategoryDto) {
     return await this.categoryRepository.save(createCategoryDto);
   }
 
   async findAll() {
-    return await this.categoryRepository.find();
+    const res = await this.categoryRepository.find();
+    return {
+      data: res,
+    };
   }
 
   async findOne(id: string) {
-    return await this.categoryRepository.findOne({where: {id}});
+    return await this.categoryRepository.findOne({ where: { id } });
   }
 }
